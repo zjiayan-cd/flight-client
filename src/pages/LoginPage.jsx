@@ -1,31 +1,56 @@
-import React from 'react'
-
-const response = {
-  user: {
-    id: '123',
-    name: 'John Doe',
-    avatar: '/avatar.png',
-  },
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....'
-}
-
-// 存储用户和 token
-localStorage.setItem('token', response.token)
-localStorage.setItem('user', JSON.stringify(response.user))
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../api';
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({ username: '', password: '' });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await api.login(formData); // POST /api/auth/login
+      const { token, username, email } = res.data;
+
+      // 保存到 localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify({ username, email }));
+
+      toast.success('Login successful!')
+      navigate('/'); // 登录成功跳转到 HomePage
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        'Login failed';
+      toast.error(msg)
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-0">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Username */}
           <div>
             <label className="block text-gray-700">Username</label>
             <input
               type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
               placeholder="Enter your username"
+              required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -35,7 +60,11 @@ function LoginPage() {
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
+              required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -59,9 +88,7 @@ function LoginPage() {
         {/* Sign up link */}
         <p className="text-center text-sm text-gray-600 mt-4">
           Don't have an account?{' '}
-          <a href="#" className="text-blue-500 hover:underline">
-            Sign up
-          </a>
+          <Link to="/regist" className="text-blue-500 hover:underline">Sign up</Link>
         </p>
       </div>
     </div>

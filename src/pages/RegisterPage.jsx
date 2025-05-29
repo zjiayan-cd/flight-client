@@ -1,39 +1,97 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api'
 
 function RegisterPage() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    country: '',
+    phone: '',
+  });
+
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const payload = {
+        username: formData.firstName,
+        email: formData.email,
+        password: formData.password,
+        country: formData.country,
+        phone: formData.phone,
+      }
+
+      const res = await api.regist(payload)
+
+      // if (res.data.success) {
+      //   navigate('/login')
+      // } else {
+      //   setError(res.data.message || 'Unknown error')
+      // }
+      navigate('/login'); // 注册成功跳转登录页
+      
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        'Registration failed'
+      setError(msg)
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-blue-600">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-blue-600">Create your account</h2>
 
-        <form className="space-y-4">
-          {/* Username */}
+        {error && <div className="mb-4 text-red-500 text-sm text-center">{error}</div>}
+
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-gray-700">Username</label>
-            <input
-              type="text"
-              placeholder="Choose a username"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <label className="block text-gray-700">User name</label>
+            <input name="username" value={formData.username} onChange={handleChange} required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-gray-700">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          {/* Country / Region */}
+          <div>
+            <label className="block text-gray-700">Password</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div>
+            <label className="block text-gray-700">Confirm Password</label>
+            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
           <div>
             <label className="block text-gray-700">Country / Region</label>
-            <select
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              defaultValue=""
-            >
+            <select name="country" value={formData.country} onChange={handleChange} required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option value="" disabled>Select your country</option>
               <option value="us">United States</option>
               <option value="uk">United Kingdom</option>
@@ -45,55 +103,27 @@ function RegisterPage() {
             </select>
           </div>
 
-          {/* Phone Number */}
           <div>
             <label className="block text-gray-700">Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Enter your phone number"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <input name="phone" value={formData.phone} onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-gray-700">Password</label>
-            <input
-              type="password"
-              placeholder="Create a password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-gray-700">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
-          >
+          <button type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
             Create Account
           </button>
         </form>
 
-        {/* Already have an account */}
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{' '}
-          <a href="#" className="text-blue-500 hover:underline">
+          <button onClick={() => navigate('/login')} className="text-blue-500 hover:underline">
             Log in
-          </a>
+          </button>
         </p>
       </div>
     </div>
-  )
+  );
 }
 
-export default RegisterPage
+export default RegisterPage;

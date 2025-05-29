@@ -5,9 +5,11 @@ import LoginPage from './pages/LoginPage'
 import MyBookingsPage from './pages/MyBookingsPage'
 import RegisterPage from './pages/RegisterPage'
 import FlightListPage from './pages/FlightListPage'
-import ReturnFlightList from './pages/ReturnFlightList'
-import FlightDetails from './pages/FlightDetailsPage'
+import FlightReturnListPage from './pages/FlightReturnListPage'
+import FlightDetailPage from './pages/FlightDetailsPage'
+import BookingReviewPage from './pages/BookingReviewPage'
 import Navbar from './components/Navbar'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -15,19 +17,33 @@ function App() {
     setUser(null)
   }
   return (
-    <Router>
-      <Navbar user={user} onLogout={handleLogout} />
-      <div className="pt-20">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/flights" element={<FlightListPage />} />
-          <Route path="/return-flights" element={<ReturnFlightList />} />
-          <Route path="/details" element={<FlightDetails />} />
-          <Route path="/my-booking" element={<MyBookingsPage user={user} />} />
-          <Route path="/login" element={<LoginPage onLogin={setUser} />} />
-        </Routes>
-      </div>
-    </Router>
+    <>
+      <Router>
+        <Navbar user={user} onLogout={handleLogout} />
+        <div className="pt-16">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/flights" element={<FlightListPage />} />
+            <Route path="/flights-return" element={<FlightReturnListPage />} />
+            <Route path="/flight" element={<FlightDetailPage />} />
+            <Route path="/booking-review" element={<BookingReviewPage />} />
+            <Route path="/my-booking" element={<MyBookingsPage user={user} />} />
+            <Route path="/login" element={<LoginPage onLogin={setUser} />} />
+            <Route path="/regist" element={<RegisterPage />} />
+          </Routes>
+        </div>
+      </Router>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+  </>
   )
 }
 

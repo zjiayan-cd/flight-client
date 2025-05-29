@@ -6,9 +6,9 @@ function Navbar({ user, onLogout }) {
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600 flex items-center gap-2">
+        <Link to="/" className="text-xl font-bold text-blue-600 flex items-center gap-2">
           ✈️ Flight Booker
         </Link>
 
@@ -21,7 +21,7 @@ function Navbar({ user, onLogout }) {
             </Link>
           )}
           {user ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <img
                 src={user.avatar || '/default-avatar.png'}
                 alt="avatar"
