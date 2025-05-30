@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { showSuccess, showError } from '../services/toast';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -17,21 +17,22 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await api.login(formData); // POST /api/auth/login
+      const res = await api.login(formData);
       const { token, username, email } = res.data;
 
       // 保存到 localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify({ username, email }));
 
-      toast.success('Login successful!')
+      showSuccess('Login successful!')
       navigate('/'); // 登录成功跳转到 HomePage
     } catch (err) {
+      console.log('Login Error:', err.response)
       const msg =
         err?.response?.data?.message ||
         err?.response?.data?.error ||
         'Login failed';
-      toast.error(msg)
+      showError(msg);
     }
   };
 
@@ -43,7 +44,7 @@ function LoginPage() {
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Username */}
           <div>
-            <label className="block text-gray-700">Username</label>
+            <label className="block text-gray-700">Username <span className='text-red-500'>*</span></label>
             <input
               type="text"
               name="username"
@@ -57,7 +58,7 @@ function LoginPage() {
 
           {/* Password */}
           <div>
-            <label className="block text-gray-700">Password</label>
+            <label className="block text-gray-700">Password <span className='text-red-500'>*</span></label>
             <input
               type="password"
               name="password"

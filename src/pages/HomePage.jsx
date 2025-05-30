@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import DateInput from '../components/DateInput'
 import { useDispatch } from 'react-redux'
 import { setSearchData } from '../store/searchSlice'
-import axios from 'axios'
+import api from '../api'
 
 function HomePage() {
   const [tripType, setTripType] = useState('oneway')
@@ -20,7 +20,7 @@ function HomePage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    axios.get('/api/airports')
+    api.airports()
     .then(res => {
       setAirports(res.data)
       setLoading(false)

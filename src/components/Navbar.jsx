@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext';
 
-function Navbar({ user, onLogout }) {
+function Navbar() {
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
@@ -28,7 +30,7 @@ function Navbar({ user, onLogout }) {
                 className="w-8 h-8 rounded-full"
               />
               <button
-                onClick={onLogout}
+                onClick={logout}
                 className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 Logout

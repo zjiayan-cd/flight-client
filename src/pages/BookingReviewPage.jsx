@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api'
+import { showError } from '../services/toast'
+import { useLoginManager } from '../context/LoginManagerContext'
+import { useAuth } from '../context/AuthContext'
 
 function BookingReviewPage() {
   const navigate = useNavigate()
   const { outboundFlight, returnFlight } = useSelector(state => state.selectedFlight)
   const passengersCount = useSelector(state => state.search.passengers)
-  const user = useSelector(state => state.auth.user) // 假设登录用户保存在 auth.user
   const [passengerInfo, setPassengerInfo] = useState(
     Array(passengersCount).fill({ name: '', idNumber: '' })
   )
   const [showSuccess, setShowSuccess] = useState(false)
   const [reference, setReference] = useState('')
+  const { showLoginModal } = useLoginManager()
+
+  const { user } = useAuth()
 
   const handleChange = (index, field, value) => {
     const updated = [...passengerInfo]
@@ -32,37 +37,53 @@ function BookingReviewPage() {
   const totalAll = totalPerPassenger * passengersCount
 
   const handleSubmit = async () => {
+    const token = localStorage.getItem("token")
+    console.log('[BookingReviewPage]token:', token)
+    if (!token || !user) {
+      showLoginModal()
+      return
+    }
+
     try {
       const bookings = []
   
-      // 🟦 出发航班订单
+      // 出发航班订单
       bookings.push({
         flightId: outboundFlight.id,
         passengers: passengerInfo
       })
   
-      // 🟨 返程航班订单（如果有）
+      // 返程航班订单（如果有）
       if (returnFlight) {
         bookings.push({
           flightId: returnFlight.id,
           passengers: passengerInfo
         })
       }
-  
-      const res = await axios.post('/api/bookings', {
-        userId: user.id,
+      console.log('[BookingReviewPage] user before:')
+      console.log('[BookingReviewPage] user:', user)
+      const res = await api.booking({
+        username: user.username,
         bookings
       })
-  
+  console.log('[BookingReviewPage] res:', res)
+  console.log('[BookingReviewPage] res.data :', res.data)
       // 假设返回多个 reference，展示第一个
-      setReference(res.data.references?.[0] || 'N/A')
+      setReference(res.data[0].reference || 'N/A')
       setShowSuccess(true)
     } catch (err) {
-      console.error(err)
-      alert('Booking failed.')
+      console.log(err?.response)
+     
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.response?.status === 403
+        ? 'You need to login first'
+        : err?.message || 
+          'Booking failed. Please try again'
+      showError(msg)
     }
-  }
-  
+  }  
 
   const handleClose = () => {
     setShowSuccess(false)
@@ -80,7 +101,8 @@ function BookingReviewPage() {
       </div>
       <div className="flex justify-between text-sm mt-1">
         <span>{flight.airline} ({flight.flightNumber})</span>
-        <span>{flight.duration}, {flight.stops} stop(s)</span>
+        {/* <span>{flight.duration}, {flight.stops} stop(s)</span> */}
+        <span>{flight.duration}, 0 stop(s)</span>
       </div>
     </div>
   )
@@ -155,7 +177,7 @@ function BookingReviewPage() {
               onClick={handleSubmit}
               className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
-              Confirm Booking
+              Continue to payment
             </button>
           </div>
         </div>

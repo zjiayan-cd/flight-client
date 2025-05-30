@@ -50,7 +50,8 @@ function FlightDetailPage() {
         </div>
         <div className="text-right">
           <div className="font-semibold">{flight.airline} ({flight.flightNumber})</div>
-          <div className="text-sm text-gray-500">{flight.duration}, {flight.stops} stop(s)</div>
+          {/* <div className="text-sm text-gray-500">{flight.duration}, {flight.stops} stop(s)</div> */}
+          <div className="text-sm text-gray-500">{flight.duration}, 0 stop(s)</div>
         </div>
       </div>
     </div>
@@ -59,7 +60,7 @@ function FlightDetailPage() {
   return (
     <div className="min-h-screen">
       <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow mt-6">
-        {/* ✅ 面包屑导航 */}
+        {/* 面包屑导航 */}
         <div className="text-sm text-gray-500 mb-4">
           <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Home</span>
           {' / '}
@@ -70,11 +71,11 @@ function FlightDetailPage() {
 
         <h2 className="text-2xl font-bold mb-6">Flights Details</h2>
 
-        {/* ✅ 航班段展示 */}
+        {/* 航班段展示 */}
         {renderFlightSegment('Outbound', outboundFlight)}
         {returnFlight && renderFlightSegment('Return', returnFlight)}
 
-        {/* ✅ Fare Summary */}
+        {/* Fare Summary */}
         <div className="mt-6 border-t pt-4">
           <h3 className="text-lg font-semibold text-gray-700 mb-2">Fare Summary (per passenger)</h3>
 
@@ -123,7 +124,7 @@ function FlightDetailPage() {
           </div>
         </div>
 
-        {/* ✅ Book 按钮 */}
+        {/* Book 按钮 */}
         <button
           className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
           onClick={() => navigate('/booking-review')}

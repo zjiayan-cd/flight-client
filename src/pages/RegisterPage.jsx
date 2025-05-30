@@ -65,25 +65,25 @@ function RegisterPage() {
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-gray-700">User name</label>
+            <label className="block text-gray-700">User name <span className='text-red-500'>*</span></label>
             <input name="username" value={formData.username} onChange={handleChange} required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Email</label>
+            <label className="block text-gray-700">Email  <span className='text-red-500'>*</span></label>
             <input type="email" name="email" value={formData.email} onChange={handleChange} required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Password</label>
+            <label className="block text-gray-700">Password  <span className='text-red-500'>*</span></label>
             <input type="password" name="password" value={formData.password} onChange={handleChange} required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
           <div>
-            <label className="block text-gray-700">Confirm Password</label>
+            <label className="block text-gray-700">Confirm Password  <span className='text-red-500'>*</span></label>
             <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
@@ -104,7 +104,7 @@ function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700">Phone Number</label>
+            <label className="block text-gray-700">Phone Number  <span className='text-red-500'>*</span></label>
             <input name="phone" value={formData.phone} onChange={handleChange}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>

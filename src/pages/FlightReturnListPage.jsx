@@ -72,7 +72,7 @@ function FlightReturnListPage() {
 
       
       {flights.map(f => (
-        <FlightCard key={f.id} flight={f} onSelect={() => handleSelect(f)} />
+        <FlightCard key={f.id} flight={f} onSelect={() => handleSelect(f)} showSelectBtn={true} />
       ))}
     </div>
   )

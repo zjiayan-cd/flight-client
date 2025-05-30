@@ -1,0 +1,28 @@
+const sampleBookings = [
+  {
+    airline: 'China Eastern',
+    airlineLogo: '/logos/cz.png',
+    flightNumber: 'MU234',
+    departure: 'Shanghai',
+    departureTime: '2025-06-01 08:00',
+    arrival: 'Tokyo',
+    arrivalTime: '2025-06-01 12:00',
+    duration: '4h',
+    stops: 0,
+    price: 420,
+    date: '2025-06-01',
+  },
+  {
+    airline: 'ANA',
+    airlineLogo: '/logos/ana.png',
+    flightNumber: 'NH999',
+    departure: 'Tokyo',
+    departureTime: '2024-12-01 14:00',
+    arrival: 'Shanghai',
+    arrivalTime: '2024-12-01 18:00',
+    duration: '4h',
+    stops: 0,
+    price: 380,
+    date: '2024-12-01',
+  },
+]

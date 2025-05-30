@@ -10,16 +10,24 @@ import FlightDetailPage from './pages/FlightDetailsPage'
 import BookingReviewPage from './pages/BookingReviewPage'
 import Navbar from './components/Navbar'
 import { ToastContainer } from 'react-toastify'
+import { LoginManagerProvider, useLoginManager } from './context/LoginManagerContext'
+import LoginModal from './components/LoginModal'
+import { AuthProvider } from './context/AuthContext'
+
+function AppWithLoginModal() {
+  const { loginModalVisible, hideLoginModal } = useLoginManager();
+
+  return (
+      loginModalVisible && <LoginModal onClose={hideLoginModal}/>
+  );
+}
 
 function App() {
-  const [user, setUser] = useState(null)
-  const handleLogout = () => {
-    setUser(null)
-  }
   return (
-    <>
+    <AuthProvider>
       <Router>
-        <Navbar user={user} onLogout={handleLogout} />
+      <LoginManagerProvider>
+        <Navbar />
         <div className="pt-16">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -27,11 +35,13 @@ function App() {
             <Route path="/flights-return" element={<FlightReturnListPage />} />
             <Route path="/flight" element={<FlightDetailPage />} />
             <Route path="/booking-review" element={<BookingReviewPage />} />
-            <Route path="/my-booking" element={<MyBookingsPage user={user} />} />
-            <Route path="/login" element={<LoginPage onLogin={setUser} />} />
+            <Route path="/my-booking" element={<MyBookingsPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/regist" element={<RegisterPage />} />
           </Routes>
+          <AppWithLoginModal />
         </div>
+        </LoginManagerProvider>
       </Router>
       <ToastContainer
         position="top-center"
@@ -42,8 +52,9 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        style={{ marginTop: '4rem' }}
       />
-  </>
+  </AuthProvider>
   )
 }
 

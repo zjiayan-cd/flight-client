@@ -1,6 +1,6 @@
 import React from 'react'
 
-function FlightCard({ flight, onSelect }) {
+function FlightCard({ flight, onSelect, showSelectBtn }) {
   return (
     <div className="flex items-center justify-between border rounded p-4 shadow-sm bg-white hover:shadow-md transition">
       <div className="flex items-center gap-4">
@@ -25,17 +25,18 @@ function FlightCard({ flight, onSelect }) {
 
       <div className="text-center">
         <div className="text-sm">{flight.duration}</div>
-        <div className="text-xs text-gray-500">{flight.stops} stops</div>
+        {/* <div className="text-xs text-gray-500">{flight.stops} stops</div> */}
+        <div className="text-xs text-gray-500">0 stops</div>
       </div>
 
       <div className="text-right">
         <div className="text-lg font-bold text-blue-600">¥{flight.price}</div>
-        <button
+        {showSelectBtn && <button
           onClick={() => onSelect(flight)}
           className="mt-1 text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
         >
           Select
-        </button>
+        </button>}
       </div>
     </div>
   )

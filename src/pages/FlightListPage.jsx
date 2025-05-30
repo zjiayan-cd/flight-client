@@ -89,7 +89,7 @@ function FlightListPage() {
 
       <div className="space-y-4">
         {flights.map(flight => (
-          <FlightCard key={flight.id} flight={flight} onSelect={() => handleSelect(flight)} />
+          <FlightCard key={flight.id} flight={flight} showSelectBtn={true} onSelect={() => handleSelect(flight)} />
         ))}
       </div>
     </div>

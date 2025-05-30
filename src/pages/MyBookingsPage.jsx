@@ -1,11 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import FlightCard from '../components/FlightCard'
 import { useNavigate } from 'react-router-dom'
+import api from '../api'
 
-function MyBookingPage({ user, bookings }) {
+function MyBookingPage() {
   const navigate = useNavigate()
+  const [bookings, setBookings] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  if (!user) {
+  const token = localStorage.getItem("token")
+
+  useEffect(() => {
+    if (token) {
+      api.bookings()
+        .then(res => {
+          setBookings(res.data)
+          setLoading(false)
+        })
+        .catch(err => {
+          console.error(err)
+          setError("Failed to load bookings.")
+          setLoading(false)
+        })
+    }
+  }, [token])
+
+  if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded shadow text-center">
@@ -21,20 +42,36 @@ function MyBookingPage({ user, bookings }) {
     )
   }
 
-  const upcoming = bookings.filter(b => new Date(b.date) > new Date())
-  const past = bookings.filter(b => new Date(b.date) <= new Date())
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Loading your bookings...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    )
+  }
+
+  const upcoming = bookings.filter(b => new Date(b.flight.departureTime) > new Date())
+  const past = bookings.filter(b => new Date(b.flight.departureTime) <= new Date())
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
 
-      {/* Upcoming */}
+      {/* Upcoming Trips */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-3">Upcoming Trips</h2>
         {upcoming.length > 0 ? (
           <div className="space-y-4">
-            {upcoming.map((flight, idx) => (
-              <FlightCard key={idx} flight={flight} />
+            {upcoming.map((booking, idx) => (
+              <FlightCard key={idx} flight={booking.flight} showSelectBtn={false} />
             ))}
           </div>
         ) : (
@@ -42,13 +79,13 @@ function MyBookingPage({ user, bookings }) {
         )}
       </section>
 
-      {/* Past */}
+      {/* Past Trips */}
       <section>
         <h2 className="text-xl font-semibold mb-3">Past Trips</h2>
         {past.length > 0 ? (
           <div className="space-y-4">
-            {past.map((flight, idx) => (
-              <FlightCard key={idx} flight={flight} />
+            {past.map((booking, idx) => (
+              <FlightCard key={idx} flight={booking.flight} />
             ))}
           </div>
         ) : (
