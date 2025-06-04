@@ -1,0 +1,16 @@
+{
+  "bannerTitle": "Book Your Flight",
+  "tripType": "Trip Type:",
+  "oneway": "One-way",
+  "round": "Round-trip",
+  "from": "From",
+  "to": "To",
+  "selectDeparture": "Select Departure",
+  "selectDestination": "Select Destination",
+  "depart": "Depart",
+  "return": "Return",
+  "passengers": "Passengers",
+  "searchFlights": "Search Flights",
+  "errorRequiredFields": "Please fill in all required fields.",
+  "errorReturnDate": "Please select a return date for round-trip."
+}

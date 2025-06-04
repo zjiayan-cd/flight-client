@@ -4,6 +4,7 @@ import DateInput from '../components/DateInput'
 import { useDispatch } from 'react-redux'
 import { setSearchData } from '../store/searchSlice'
 import api from '../api'
+import { useTranslation } from 'react-i18next'
 
 function HomePage() {
   const [tripType, setTripType] = useState('oneway')
@@ -18,7 +19,9 @@ function HomePage() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { t } = useTranslation('home')
 
+  console.log('Translation:', t('bannerTitle'))
   useEffect(() => {
     api.airports()
     .then(res => {
@@ -35,12 +38,12 @@ function HomePage() {
     e.preventDefault()
 
     if (!from || !to || !departDate) {
-      setError('Please fill in all required fields.')
+      setError(t('errorRequiredFields'))
       return
     }
 
     if (tripType === 'round' && !returnDate) {
-      setError('Please select a return date for round-trip.')
+      setError(t('errorReturnDate'))
       return
     }
 
@@ -66,7 +69,7 @@ function HomePage() {
         style={{ backgroundImage: `url('https://source.unsplash.com/1600x400/?airplane')` }}
       >
         <div className="w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
-          <h1 className="text-white text-3xl font-bold">Book Your Flight</h1>
+          <h1 className="text-white text-3xl font-bold">{t('bannerTitle')}</h1>
         </div>
       </div>
 
@@ -76,7 +79,7 @@ function HomePage() {
 
         {/* Trip Type */}
         <div>
-          <label className="font-semibold text-gray-700 mr-4">Trip Type:</label>
+          <label className="font-semibold text-gray-700 mr-4">{t('tripType')}</label>
           <label className="mr-4">
             <input
               type="radio"
@@ -85,7 +88,7 @@ function HomePage() {
               checked={tripType === 'oneway'}
               onChange={() => setTripType('oneway')}
             />{' '}
-            One-way
+            {t('oneway')}
           </label>
           <label>
             <input
@@ -95,7 +98,7 @@ function HomePage() {
               checked={tripType === 'round'}
               onChange={() => setTripType('round')}
             />{' '}
-            Round-trip
+            {t('round')}
           </label>
         </div>
 
@@ -103,7 +106,7 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700">
-              From <span className="text-red-500">*</span>
+            {t('from')} <span className="text-red-500">*</span>
             </label>
             <select
               className="w-full border rounded p-2"
@@ -111,7 +114,7 @@ function HomePage() {
               onChange={e => setFrom(e.target.value)}
               required
             >
-              <option value="">Select Departure</option>
+              <option value="">{t('selectDeparture')}</option>
               {airports.map(airport => (
                 <option key={airport.code} value={airport.code}>
                   {airport.name} ({airport.code})
@@ -122,7 +125,7 @@ function HomePage() {
 
           <div>
             <label className="block text-gray-700">
-              To <span className="text-red-500">*</span>
+            {t('to')} <span className="text-red-500">*</span>
             </label>
             <select
               className="w-full border rounded p-2"
@@ -130,7 +133,7 @@ function HomePage() {
               onChange={e => setTo(e.target.value)}
               required
             >
-              <option value="">Select Destination</option>
+              <option value="">{t('selectDestination')}</option>
               {airports.map(airport => (
                 <option key={airport.code} value={airport.code}>
                   {airport.name} ({airport.code})
@@ -145,20 +148,20 @@ function HomePage() {
           <DateInput
             label={
               <span>
-                Depart <span className="text-red-500">*</span>
+                {t('depart')} <span className="text-red-500">*</span>
               </span>
             }
             selected={departDate}
             onChange={setDepartDate}
           />
           {tripType === 'round' && (
-            <DateInput label="Return" selected={returnDate} onChange={setReturnDate} />
+            <DateInput label={t('return')} selected={returnDate} onChange={setReturnDate} />
           )}
         </div>
 
         {/* Passengers */}
         <div>
-          <label className="block text-gray-700">Passengers</label>
+          <label className="block text-gray-700">{t('passengers')}</label>
           <input
             type="number"
             min="1"
@@ -173,7 +176,7 @@ function HomePage() {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          Search Flights
+          {t('searchFlights')}
         </button>
       </form>
     </div>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import MyBookingsPage from './pages/MyBookingsPage'
@@ -13,6 +13,26 @@ import { ToastContainer } from 'react-toastify'
 import { LoginManagerProvider, useLoginManager } from './context/LoginManagerContext'
 import LoginModal from './components/LoginModal'
 import { AuthProvider } from './context/AuthContext'
+// import { clearSelectedFlights } from './store/selectedFlightSlice'
+
+// const routeWhitelist = [
+//   '/flights-return',
+//   '/booking-review',
+//   '/payment'
+// ]
+
+// function RouteWatcher() {
+//   const location = useLocation()
+//   const dispatch = useDispatch()
+
+//   useEffect(() => {
+//     if (!routeWhitelist.includes(location.pathname)) {
+//       dispatch(clearSelectedFlights())
+//     }
+//   }, [location.pathname, dispatch])
+
+//   return null
+// }
 
 function AppWithLoginModal() {
   const { loginModalVisible, hideLoginModal } = useLoginManager();

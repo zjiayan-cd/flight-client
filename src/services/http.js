@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useLoginManager } from '../context/LoginManagerContext';
+import i18n from 'i18next'
 
 /**
  * process error method
@@ -55,6 +55,9 @@ instance.interceptors.request.use(
         if (access_token != null) {
             config.headers["authorization"] = `Bearer ${access_token}`
         }
+
+        config.headers['Accept-Language'] = i18n.language || 'en'
+
         return config
     },
     error => Promise.reject(error)

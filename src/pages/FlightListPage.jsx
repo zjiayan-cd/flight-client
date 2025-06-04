@@ -4,7 +4,8 @@ import FlightCard from '../components/FlightCard'
 import { useSelector } from 'react-redux'
 import api from '../api'
 import { useDispatch } from 'react-redux'
-import { setOutboundFlight } from '../store/selectedFlightSlice'
+import { clearSelectedFlights, setOutboundFlight } from '../store/selectedFlightSlice'
+import { formatDate } from '../services/date'
 
 function FlightListPage() {
   const location = useLocation()
@@ -19,6 +20,10 @@ function FlightListPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(clearSelectedFlights())
+  }, [])
+
+  useEffect(() => {
     const fetchFlights = async () => {
       setLoading(true)
       setError(null)
@@ -30,8 +35,8 @@ function FlightListPage() {
           tripType: search.tripType,
           from: search.from,
           to: search.to,
-          depart: search.departDate,
-          returnDate: search.tripType === 'round' ? search.returnDate : undefined,
+          departDate: formatDate(search.departDate),
+          returnDate: search.tripType === 'round' ? formatDate(search.returnDate) : undefined,
           passengers: search.passengers,
         })
         console.log('[DEBUG] Response:', response)

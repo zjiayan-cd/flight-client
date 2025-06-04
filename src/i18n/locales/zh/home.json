@@ -1,0 +1,16 @@
+{
+  "bannerTitle": "预订航班",
+  "tripType": "行程类型：",
+  "oneway": "单程",
+  "round": "往返",
+  "from": "出发地",
+  "to": "目的地",
+  "selectDeparture": "选择出发地",
+  "selectDestination": "选择目的地",
+  "depart": "出发",
+  "return": "返回",
+  "passengers": "乘客人数",
+  "searchFlights": "搜索航班",
+  "errorRequiredFields": "请填写所有必填项。",
+  "errorReturnDate": "往返行程请填写返回日期。"
+}

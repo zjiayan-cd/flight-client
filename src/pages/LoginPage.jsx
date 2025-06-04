@@ -3,9 +3,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 import 'react-toastify/dist/ReactToastify.css';
 import { showSuccess, showError } from '../services/toast';
+import { useTranslation } from 'react-i18next';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation('login');
 
   const [formData, setFormData] = useState({ username: '', password: '' });
 
@@ -17,7 +19,9 @@ function LoginPage() {
     e.preventDefault();
 
     try {
+      console.log('**formData**:', formData)
       const res = await api.login(formData);
+      console.log('**res.data**:', res.data)
       const { token, username, email } = res.data;
 
       // 保存到 localStorage
@@ -39,18 +43,18 @@ function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-0">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">{t('title')}</h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Username */}
           <div>
-            <label className="block text-gray-700">Username <span className='text-red-500'>*</span></label>
+            <label className="block text-gray-700">{t('username')} <span className='text-red-500'>*</span></label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Enter your username"
+              placeholder={t('usernamePlaceholder')}
               required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -58,13 +62,13 @@ function LoginPage() {
 
           {/* Password */}
           <div>
-            <label className="block text-gray-700">Password <span className='text-red-500'>*</span></label>
+            <label className="block text-gray-700">{t('password')} <span className='text-red-500'>*</span></label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder={t('passwordPlaceholder')}
               required
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -73,7 +77,7 @@ function LoginPage() {
           {/* Forgot link */}
           <div className="text-right">
             <a href="#" className="text-sm text-blue-500 hover:underline">
-              Forgot username or password?
+            {t('forgot')}
             </a>
           </div>
 
@@ -82,14 +86,14 @@ function LoginPage() {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
           >
-            Log In
+            {t('submit')}
           </button>
         </form>
 
         {/* Sign up link */}
         <p className="text-center text-sm text-gray-600 mt-4">
-          Don't have an account?{' '}
-          <Link to="/regist" className="text-blue-500 hover:underline">Sign up</Link>
+        {t('noAccount')}{' '}
+          <Link to="/regist" className="text-blue-500 hover:underline">{t('signup')}</Link>
         </p>
       </div>
     </div>
