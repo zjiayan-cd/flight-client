@@ -62,12 +62,13 @@ function MyBookingPage() {
   const past = bookings.filter(b => new Date(b.flight.departureTime) <= new Date())
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
+    <div className="min-h-screen px-4 pt-20 pb-10 bg-gradient-to-br from-blue-100 to-white">
+      <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 mt-8 text-gray-800">My Bookings</h1>
 
       {/* Upcoming Trips */}
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Upcoming Trips</h2>
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">Upcoming Trips</h2>
         {upcoming.length > 0 ? (
           <div className="space-y-4">
             {upcoming.map((booking, idx) => (
@@ -81,7 +82,7 @@ function MyBookingPage() {
 
       {/* Past Trips */}
       <section>
-        <h2 className="text-xl font-semibold mb-3">Past Trips</h2>
+        <h2 className="text-xl font-semibold mb-4">Past Trips</h2>
         {past.length > 0 ? (
           <div className="space-y-4">
             {past.map((booking, idx) => (
@@ -92,6 +93,7 @@ function MyBookingPage() {
           <p className="text-gray-500">You have no past trips.</p>
         )}
       </section>
+      </div>
     </div>
   )
 }

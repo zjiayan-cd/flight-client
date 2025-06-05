@@ -39,12 +39,6 @@ function RegisterPage() {
       }
 
       const res = await api.regist(payload)
-
-      // if (res.data.success) {
-      //   navigate('/login')
-      // } else {
-      //   setError(res.data.message || 'Unknown error')
-      // }
       navigate('/login'); // 注册成功跳转登录页
       
     } catch (err) {
@@ -57,8 +51,8 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+    <div className="min-h-screen bg-gray-100 bg-gradient-to-br from-blue-100 to-white px-4 pt-16">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md mx-auto mt-8">
         <h2 className="text-2xl font-bold text-center mb-6 text-blue-600">Create your account</h2>
 
         {error && <div className="mb-4 text-red-500 text-sm text-center">{error}</div>}
@@ -110,7 +104,7 @@ function RegisterPage() {
           </div>
 
           <button type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
+            className="w-full bg-blue-600 text-white py-2 font-medium rounded-md hover:bg-blue-700 transition duration-200">
             Create Account
           </button>
         </form>

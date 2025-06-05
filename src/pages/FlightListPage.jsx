@@ -82,20 +82,22 @@ function FlightListPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-semibold mb-4">Available Flights</h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white px-4 py-10 pt-20">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">Available Flights</h2>
 
-      {loading && <p className="text-gray-600">Loading flights...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <p className="text-center text-gray-600">Loading flights...</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
 
       {!loading && flights.length === 0 && (
-        <p className="text-gray-500">No flights found for the selected criteria.</p>
+        <p className="text-center text-gray-500">No flights found for the selected criteria.</p>
       )}
 
       <div className="space-y-4">
         {flights.map(flight => (
           <FlightCard key={flight.id} flight={flight} showSelectBtn={true} onSelect={() => handleSelect(flight)} />
         ))}
+      </div>
       </div>
     </div>
   )

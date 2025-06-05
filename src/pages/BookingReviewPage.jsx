@@ -37,6 +37,13 @@ function BookingReviewPage() {
   const totalAll = totalPerPassenger * passengersCount
 
   const handleSubmit = async () => {
+    for (const [i, p] of passengerInfo.entries()) {
+      if (!p.name || !p.idNumber) {
+        showError(`Passenger ${i + 1} info is incomplete.`)
+        return
+      }
+    }
+
     const token = localStorage.getItem("token")
     console.log('[BookingReviewPage]token:', token)
     if (!token || !user) {
@@ -66,7 +73,6 @@ function BookingReviewPage() {
         username: user.username,
         bookings
       })
-  console.log('[BookingReviewPage] res:', res)
   console.log('[BookingReviewPage] res.data :', res.data)
       // 假设返回多个 reference，展示第一个
       setReference(res.data[0].reference || 'N/A')
@@ -93,24 +99,26 @@ function BookingReviewPage() {
   const renderFlightSegment = (title, flight) => (
     <div className="mb-4">
       <h3 className="font-semibold text-gray-700">{title}</h3>
-      <div className="flex justify-between text-sm text-gray-600">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:justify-between text-sm text-gray-600">
+        <div className="mb-1 sm:mb-0 truncate">
           {flight.departure} → {flight.arrival}
         </div>
-        <div>{flight.departureTime} - {flight.arrivalTime}</div>
+        <div className="text-left sm:text-right whitespace-nowrap">
+          {flight.departureTime} - {flight.arrivalTime}
+        </div>
       </div>
-      <div className="flex justify-between text-sm mt-1">
+      <div className="flex flex-col sm:flex-row sm:justify-between text-sm mt-1 text-gray-600">
         <span>{flight.airline} ({flight.flightNumber})</span>
         {/* <span>{flight.duration}, {flight.stops} stop(s)</span> */}
-        <span>{flight.duration}, 0 stop(s)</span>
+        <span>0 stop(s)</span>
       </div>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        {/* 导航 */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white px-4 pt-20">
+      <div className="max-w-6xl mx-auto px-4 py-6 ">
+        {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4">
           <span className="cursor-pointer hover:underline" onClick={() => navigate('/')}>Home</span>
           {' / '}
@@ -129,7 +137,7 @@ function BookingReviewPage() {
             {returnFlight && renderFlightSegment('Return', returnFlight)}
 
             <div className="mt-6 border-t pt-4">
-              <h4 className="font-medium text-gray-700 mb-2">Fare Summary</h4>
+              <h4 className="font-semibold text-gray-700 mb-2">Fare Summary</h4>
               <div className="text-sm space-y-1">
                 <div className="flex justify-between">
                   <span>Passengers</span>
@@ -157,7 +165,7 @@ function BookingReviewPage() {
             <div className="space-y-4">
               {passengerInfo.map((p, i) => (
                 <div key={i} className="border-b pb-4">
-                  <div className="font-medium text-gray-700 mb-2">Passenger {i + 1}</div>
+                  <div className="font-medium text-gray-700 mb-2">Passenger {i + 1} <span className="text-red-500">*</span></div>
                   <input
                     className="w-full border px-3 py-2 rounded mb-2"
                     placeholder="Full Name"
@@ -175,7 +183,7 @@ function BookingReviewPage() {
             </div>
             <button
               onClick={handleSubmit}
-              className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-medium"
             >
               Continue to payment
             </button>
@@ -192,7 +200,7 @@ function BookingReviewPage() {
             <p className="font-mono text-lg text-gray-800 mb-4">{reference}</p>
             <button
               onClick={handleClose}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-medium"
             >
               View My Bookings
             </button>

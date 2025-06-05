@@ -62,10 +62,10 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 bg-gradient-to-br from-blue-100 to-white px-4 pt-16">
       {/* 滚动 Banner */}
       <div
-        className="w-full h-60 bg-cover bg-center mb-8"
+        className="w-full h-48 md:h-60 bg-cover bg-center mb-6 shadow"
         style={{ backgroundImage: `url('https://source.unsplash.com/1600x400/?airplane')` }}
       >
         <div className="w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
@@ -74,7 +74,7 @@ function HomePage() {
       </div>
 
       {/* 搜索表单 */}
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto bg-white p-6 rounded shadow space-y-4">
+      <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto bg-white p-6 rounded shadow space-y-4">
         {error && <div className="text-red-500 text-sm">{error}</div>}
 
         {/* Trip Type */}
@@ -155,7 +155,7 @@ function HomePage() {
             onChange={setDepartDate}
           />
           {tripType === 'round' && (
-            <DateInput label={t('return')} selected={returnDate} onChange={setReturnDate} />
+            <DateInput label={<span>{t('return')} <span className="text-red-500">*</span></span>} selected={returnDate} onChange={setReturnDate} />
           )}
         </div>
 
@@ -167,14 +167,14 @@ function HomePage() {
             min="1"
             value={passengers}
             onChange={e => setPassengers(Number(e.target.value))}
-            className="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full font-medium border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         {/* Search Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white py-2 font-medium rounded hover:bg-blue-700 transition"
         >
           {t('searchFlights')}
         </button>

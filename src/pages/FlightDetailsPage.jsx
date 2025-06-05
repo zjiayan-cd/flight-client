@@ -4,16 +4,15 @@ import { useNavigate } from 'react-router-dom'
 
 function FlightDetailPage() {
   const { outboundFlight, returnFlight } = useSelector(state => state.selectedFlight)
-  const passengers = useSelector(state => state.search.passengers)
   const navigate = useNavigate()
 
   if (!outboundFlight) {
     return (
-      <div className="max-w-3xl mx-auto mt-10 text-center">
-        <p className="text-red-500">No flight selected.</p>
+      <div className="max-w-xl mx-auto mt-20 text-center px-4">
+        <p className="text-red-500 text-lg font-medium">No flight selected.</p>
         <button
           onClick={() => navigate('/flights')}
-          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+          className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
         >
           Back to Flights
         </button>
@@ -39,28 +38,28 @@ function FlightDetailPage() {
   const renderFlightSegment = (title, flight) => (
     <div className="mb-6">
       <h3 className="text-lg font-semibold text-gray-700 mb-2">{title}</h3>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm">
         <div>
           <div className="text-gray-800 font-medium">
             {flight.departure} → {flight.arrival}
           </div>
-          <div className="text-gray-500 text-sm">
+          <div className="text-gray-500">
             {flight.departureTime} - {flight.arrivalTime}
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-left sm:text-right">
           <div className="font-semibold">{flight.airline} ({flight.flightNumber})</div>
           {/* <div className="text-sm text-gray-500">{flight.duration}, {flight.stops} stop(s)</div> */}
-          <div className="text-sm text-gray-500">{flight.duration}, 0 stop(s)</div>
+          <div className="text-gray-500">{flight.duration}, 0 stop(s)</div>
         </div>
       </div>
     </div>
   )
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow mt-6">
-        {/* 面包屑导航 */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white px-4 py-10 pt-20">
+      <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow">
+        {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4">
           <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Home</span>
           {' / '}
@@ -126,7 +125,7 @@ function FlightDetailPage() {
 
         {/* Book 按钮 */}
         <button
-          className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-medium"
           onClick={() => navigate('/booking-review')}
         >
           Book Now

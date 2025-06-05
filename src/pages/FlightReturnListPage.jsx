@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import FlightCard from '../components/FlightCard'
 import api from '../api'
 import { setReturnFlight } from '../store/selectedFlightSlice'
+import { formatDate } from '../services/date'
 
 function FlightReturnListPage() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function FlightReturnListPage() {
         const res = await api.searchFlights({
           from: search.to, 
           to: search.from,
-          depart: search.returnDate,
+          departDate: formatDate(search.returnDate),
           passengers: search.passengers,
         })
         setFlights(res.data)
@@ -40,18 +41,19 @@ function FlightReturnListPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-semibold mb-4">Select Your Return Flight</h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white px-4 py-10 pt-20">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">Select Your Return Flight</h2>
       {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-center text-red-500">{error}</p>}
       
       {!loading && flights.length === 0 && (
-            <div className="text-center mt-6 text-gray-600">
+            <div className="text-center text-gray-600">
                 <p>No return flights found for the selected criteria.</p>
                 <div className="mt-4 flex justify-center gap-4">
                 <button
                     onClick={() => navigate('/')}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-medium"
                 >
                     Back to Home
                 </button>
@@ -62,7 +64,7 @@ function FlightReturnListPage() {
                     dispatch({ type: 'search/setSearchData', payload: { ...search, tripType: 'oneway', returnDate: '' } })
                     navigate('/flight') // 直接进入详情页，只显示去程
                     }}
-                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 font-medium"
                 >
                     Book One-way Instead
                 </button>
@@ -70,10 +72,12 @@ function FlightReturnListPage() {
             </div>
         )}
 
-      
-      {flights.map(f => (
-        <FlightCard key={f.id} flight={f} onSelect={() => handleSelect(f)} showSelectBtn={true} />
-      ))}
+      <div className="space-y-4">
+        {flights.map(flight => (
+          <FlightCard key={flight.id} flight={flight} showSelectBtn={true} onSelect={() => handleSelect(flight)} />
+        ))}
+      </div>
+    </div>
     </div>
   )
 }

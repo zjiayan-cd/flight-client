@@ -13,26 +13,6 @@ import { ToastContainer } from 'react-toastify'
 import { LoginManagerProvider, useLoginManager } from './context/LoginManagerContext'
 import LoginModal from './components/LoginModal'
 import { AuthProvider } from './context/AuthContext'
-// import { clearSelectedFlights } from './store/selectedFlightSlice'
-
-// const routeWhitelist = [
-//   '/flights-return',
-//   '/booking-review',
-//   '/payment'
-// ]
-
-// function RouteWatcher() {
-//   const location = useLocation()
-//   const dispatch = useDispatch()
-
-//   useEffect(() => {
-//     if (!routeWhitelist.includes(location.pathname)) {
-//       dispatch(clearSelectedFlights())
-//     }
-//   }, [location.pathname, dispatch])
-
-//   return null
-// }
 
 function AppWithLoginModal() {
   const { loginModalVisible, hideLoginModal } = useLoginManager();
@@ -48,7 +28,7 @@ function App() {
       <Router>
       <LoginManagerProvider>
         <Navbar />
-        <div className="pt-16">
+        <div className="pt-0">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/flights" element={<FlightListPage />} />

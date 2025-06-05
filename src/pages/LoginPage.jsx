@@ -41,7 +41,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 pt-0">
+    <div className="h-screen flex items-center justify-center bg-gray-100 bg-gradient-to-br from-blue-100 to-white px-4">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">{t('title')}</h2>
 
@@ -84,7 +84,7 @@ function LoginPage() {
           {/* Submit button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
+            className="w-full bg-blue-600 text-white py-2 font-medium rounded-md hover:bg-blue-700 transition duration-200"
           >
             {t('submit')}
           </button>

@@ -11,6 +11,7 @@ function LoginModal({ onClose }) {
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value})
   }
+
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -39,12 +40,12 @@ function LoginModal({ onClose }) {
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-sm p-6 rounded shadow-lg relative">
         <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
           onClick={onClose}
         >
           &times;
         </button>
-        <h2 className="text-xl font-semibold mb-4 text-center text-gray-800">Login Required</h2>
+        <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Login Required</h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-700 mb-1">Username <span className='text-red-500'>*</span></label>
@@ -72,7 +73,7 @@ function LoginModal({ onClose }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700 transition disabled:opacity-50"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
