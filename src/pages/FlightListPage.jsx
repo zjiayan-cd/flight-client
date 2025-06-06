@@ -115,7 +115,17 @@ function FlightListPage() {
       {error && <p className="text-center text-red-500">{error}</p>}
 
       {!loading && flights.length === 0 && (
-        <p className="text-center text-gray-500">No flights found for the selected criteria.</p>
+        <div className="text-center text-gray-600">
+          <p className="text-center text-gray-500">No flights found for the selected criteria.</p>
+          <div className="mt-4 flex justify-center gap-4">
+                <button
+                    onClick={() => navigate('/')}
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 font-medium"
+                >
+                    Back to Home
+                </button>
+          </div>
+        </div>
       )}
 
       <div className="relative">
@@ -153,7 +163,7 @@ function FlightListPage() {
           </button>
         </div>
         )}
-        
+
       </div>
     </div>
   )
