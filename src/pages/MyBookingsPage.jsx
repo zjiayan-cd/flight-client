@@ -2,24 +2,26 @@ import React, { useState, useEffect } from 'react'
 import FlightCard from '../components/FlightCard'
 import { useNavigate } from 'react-router-dom'
 import api from '../api'
+import { useAuth } from '../context/AuthContext'
 
 function MyBookingPage() {
   const navigate = useNavigate()
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const token = localStorage.getItem("token")
+  const { token } = useAuth()
 
   useEffect(() => {
     if (token) {
       api.bookings()
         .then(res => {
+          console.log('[Bookings API response]', res)
           setBookings(res.data)
+          setError(null)
           setLoading(false)
         })
         .catch(err => {
-          console.error(err)
+          console.error('[Bookings API error]', err)
           setError("Failed to load bookings.")
           setLoading(false)
         })

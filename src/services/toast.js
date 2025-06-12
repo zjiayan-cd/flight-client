@@ -11,7 +11,8 @@ export const showSuccess = (message) => {
 
 export const showError = (message) => {
   toast.error(message, {
-    autoClose: false, // 错误不自动关闭
+    // autoClose: false, // 错误不自动关闭
+    utoClose: 3000,
     position: 'top-center',
     pauseOnHover: true,
     draggable: true

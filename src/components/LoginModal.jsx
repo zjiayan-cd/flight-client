@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import api from '../api'
-import { showError } from '../services/toast'
+import { showError, showSuccess } from '../services/toast'
 import { useAuth } from '../context/AuthContext'
 
 function LoginModal({ onClose }) {
@@ -19,6 +19,7 @@ function LoginModal({ onClose }) {
       const res = await api.login(formData)
       try{
         login(res.data)
+        showSuccess('Login successful!')
         onClose()
       }catch(innerError){
         console.error('[LoginModal] onLoginSuccess 报错：', innerError);

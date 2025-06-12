@@ -4,9 +4,11 @@ import api from '../api';
 import 'react-toastify/dist/ReactToastify.css';
 import { showSuccess, showError } from '../services/toast';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const { t } = useTranslation('login');
 
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -19,15 +21,10 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      console.log('**formData**:', formData)
       const res = await api.login(formData);
-      console.log('**res.data**:', res.data)
-      const { token, username, email } = res.data;
 
       // 保存到 localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify({ username, email }));
-
+      login(res.data)
       showSuccess('Login successful!')
       navigate('/'); // 登录成功跳转到 HomePage
     } catch (err) {

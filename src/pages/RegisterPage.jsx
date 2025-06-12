@@ -31,7 +31,7 @@ function RegisterPage() {
 
     try {
       const payload = {
-        username: formData.firstName,
+        username: formData.username,
         email: formData.email,
         password: formData.password,
         country: formData.country,

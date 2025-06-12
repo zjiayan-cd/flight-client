@@ -1,23 +1,31 @@
 import axios from 'axios'
 import i18n from 'i18next'
 
+
+let tokenExpiredHandled = false
 /**
  * process error method
  */
-const errorHandle = (status, info, config) => {
+const errorHandle = (status, info, err) => {
     console.log("status:", status)
     switch (status) {
         case 400:
             console.log("The current request cannot be understood by the server. The client should not submit the request repeatedly unless it is modified.")
             break;
         case 401:
-            console.log("server authentication fails.")
-            if(!config?.url?.includes('/auth/login')){
-                window.dispatchEvent(new CustomEvent('token-expired'));
+            console.log("server authentication fails.", err)
+            const errorType = err.response?.data?.error
+            if (errorType === 'TOKEN_EXPIRED' && !tokenExpiredHandled) {
+              tokenExpiredHandled = true
+              window.dispatchEvent(new Event('token-expired'))
+
+              setTimeout(() => {
+                tokenExpiredHandled = false
+              }, 1000)
             }
             break;
         case 403:
-            console.log("The server has understood the request but refuses to execute it.");
+            console.log("The server has understood the request but refuses to execute it.")
             break;
         case 404:
             console.log("Please check the network request address.")
@@ -84,9 +92,14 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     response => response.status === 200 ? Promise.resolve(response) : Promise.reject(response), //请求成功的回调
     error => { //请求失败的回调
-        const { response } = error; //从 Axios 抛出的错误对象中提取 response 字段
-        errorHandle(response.status, response.data, error.config);
-        return Promise.reject(error);
+        const { response } = error //从 Axios 抛出的错误对象中提取 response 字段
+        if(response){
+            errorHandle(response.status, response.data, error)
+        }else{
+            console.error('Unknown axios error:', error)
+        }
+        
+        return Promise.reject(error)
     }
 )
 

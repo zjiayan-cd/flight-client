@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { showError } from '../services/toast';
 
 const LoginManagerContext = createContext();
 
@@ -11,6 +12,7 @@ export const LoginManagerProvider = ({ children }) => {
   useEffect(() => {
     const onTokenExpired = () => {
       console.log('[LoginManager] Token expired, showing login modal.');
+      showError("Session expired, please login again.")
       setLoginModalVisible(true);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
