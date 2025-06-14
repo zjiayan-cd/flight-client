@@ -75,7 +75,7 @@ function BookingReviewPage() {
       })
   console.log('[BookingReviewPage] res.data :', res.data)
       // 假设返回多个 reference，展示第一个
-      setReference(res.data[0].reference || 'N/A')
+      setReference(res.data.data[0].reference || 'N/A')
       setShowSuccess(true)
     } catch (err) {
       console.log(err?.response)

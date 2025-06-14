@@ -25,7 +25,7 @@ function HomePage() {
   useEffect(() => {
     api.airports()
     .then(res => {
-      setAirports(res.data)
+      setAirports(res.data.data)
       setLoading(false)
     })
     .catch(error => {

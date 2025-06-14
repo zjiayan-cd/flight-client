@@ -24,7 +24,7 @@ function LoginPage() {
       const res = await api.login(formData);
 
       // 保存到 localStorage
-      login(res.data)
+      login(res.data.data)
       showSuccess('Login successful!')
       navigate('/'); // 登录成功跳转到 HomePage
     } catch (err) {

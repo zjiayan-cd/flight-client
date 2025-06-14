@@ -47,10 +47,10 @@ function FlightListPage() {
           sortOrder,
         })
         console.log('[DEBUG] Response:', response)
-        setFlights(response.data.flights)
-        setTotalPages(response.data.total)
+        setFlights(response.data.data.flights)
+        setTotalPages(response.data.data.total)
       } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load flights')
+        setError(err.response?.data?.data?.message || 'Failed to load flights')
       } finally {
         setLoading(false)
       }

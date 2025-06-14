@@ -90,7 +90,13 @@ instance.interceptors.request.use(
     }
  */
 instance.interceptors.response.use(
-    response => response.status === 200 ? Promise.resolve(response) : Promise.reject(response), //请求成功的回调
+    response => {
+        if (response.status >= 200 && response.status < 300) {
+            return response
+          } else {
+            return Promise.reject(response)
+          }
+    }, //请求成功的回调
     error => { //请求失败的回调
         const { response } = error //从 Axios 抛出的错误对象中提取 response 字段
         if(response){

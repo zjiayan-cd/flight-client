@@ -35,8 +35,8 @@ function FlightReturnListPage() {
           sortBy,
           sortOrder,
         })
-        setFlights(res.data.flights)
-        setTotalPages(res.data.total)
+        setFlights(res.data.data.flights)
+        setTotalPages(res.data.data.total)
       } catch (err) {
         console.log("err:", err)
         setError('Failed to load return flights.')

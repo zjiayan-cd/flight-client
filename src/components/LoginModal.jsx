@@ -18,7 +18,7 @@ function LoginModal({ onClose }) {
     try {
       const res = await api.login(formData)
       try{
-        login(res.data)
+        login(res.data.data)
         showSuccess('Login successful!')
         onClose()
       }catch(innerError){

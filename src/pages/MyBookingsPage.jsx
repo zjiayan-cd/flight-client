@@ -16,7 +16,7 @@ function MyBookingPage() {
       api.bookings()
         .then(res => {
           console.log('[Bookings API response]', res)
-          setBookings(res.data)
+          setBookings(res.data.data)
           setError(null)
           setLoading(false)
         })
