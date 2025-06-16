@@ -47,7 +47,7 @@ jobs:
           ls -la
           
       - name: Build docker image
-        working-directory: ./flight-client
+        #working-directory: ./flight-client
         run: docker build -t $IMAGE_TAG .
 
       - name: Push Docker image to ECR
