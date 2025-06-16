@@ -1,0 +1,13 @@
+{
+  "title": "Login",
+  "username": "Username",
+  "password": "Password",
+  "usernamePlaceholder": "Enter your username",
+  "passwordPlaceholder": "Enter your password",
+  "forgot": "Forgot username or password?",
+  "submit": "Log In",
+  "noAccount": "Don't have an account?",
+  "signup": "Sign up",
+  "success": "Login successful!",
+  "failed": "Login failed"
+}
