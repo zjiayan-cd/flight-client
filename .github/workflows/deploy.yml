@@ -44,7 +44,7 @@ jobs:
       - name: Check directory structure
         run: |
           echo "Current working directory: $(pwd)"
-          ls -la ./flight-client
+          ls -la
           
       - name: Build docker image
         working-directory: ./flight-client
