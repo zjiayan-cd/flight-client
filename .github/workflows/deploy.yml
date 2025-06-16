@@ -63,4 +63,6 @@ jobs:
           echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
       - name: Deploy new task definition
-        run: aws ecs update-service --cluster $env.ECS_CLUSTER_NAME --service $env.ECS_SERVICE_NAME --task-definition $TASK_DEF_ARN
+        run: |
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN"
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER_NAME }} --service ${{ env.ECS_SERVICE_NAME }} --task-definition ${{ env.TASK_DEF_ARN }}
