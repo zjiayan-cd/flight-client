@@ -47,7 +47,7 @@ const errorHandle = (status, info, err) => {
  */
 
 const instance = axios.create({
-    baseURL: '/api', // 所有请求都以 /api 开头，走 Vite 代理
+    baseURL: '/api', // 所有请求都以 /api 开头，开发环境走 Vite 代理
     timeout: 20000,
     headers: {
         'Content-Type': 'application/json',
