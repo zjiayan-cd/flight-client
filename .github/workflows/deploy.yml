@@ -40,7 +40,12 @@ jobs:
 
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest" >> $GITHUB_ENV
-
+      
+      - name: Check directory structure
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -la ./flight-client
+          
       - name: Build docker image
         working-directory: ./flight-client
         run: docker build -t $IMAGE_TAG .
