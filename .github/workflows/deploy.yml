@@ -39,7 +39,7 @@ jobs:
           docker login --username AWS --password-stdin ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
       - name: Set IMAGE_TAG
-        run: echo "IMAGE_TAG=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest"
+        run: echo "IMAGE_TAG=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest" >> $GITHUB_ENV
 
       - name: Build docker image
         working-directory: ./flight-client
@@ -49,7 +49,7 @@ jobs:
         run: docker push $IMAGE_TAG
 
       - name: Fill in image URI in task definition
-        run: sed -i "s|replace-this-later|${{ env.IMAGE_TAG }}|" ${{ env.TASK_DEFINITION_FILE }}
+        run: sed -i "s|replace-this-later|$IMAGE_TAG|" ${{ env.TASK_DEFINITION_FILE }}
 
       - name: Register new task definition
         id: task-def
