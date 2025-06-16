@@ -14,8 +14,9 @@ env:
   CONTAINER_NAME: ${{secrets.CONTAINER_NAME}}
   AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-  IMAGE_TAG: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.$AWS_REGION.amazonaws.com/${{secrets.ECR_REPOSITORY}}:latest
+  IMAGE_TAG: ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/${{secrets.ECR_REPOSITORY}}:latest
   TASK_DEFINITION_FILE: .aws/task-definition.json
+  AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
 
 jobs:
   deploy:
